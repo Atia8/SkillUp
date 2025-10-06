@@ -1,6 +1,6 @@
-# SkillUp Auth App
+# SkillUp
 
-Full-stack authentication app with React frontend and Node.js backend.
+A platform where people can share knowledge, learn new skills, and exchange expertise with others.
 
 ## 🚀 Tech Stack
 - **Frontend**: React, Tailwind CSS, Vite
