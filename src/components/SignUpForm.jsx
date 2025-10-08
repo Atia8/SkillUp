@@ -2,10 +2,66 @@ import { Mail, Lock, Github,Globe,User} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import CustomCheckbox from "./SimpleCheckbox"; // or SimpleCheckbox
 import { useState } from "react";
+import { apiService } from "../services/api"
 
 export default function SignInForm() {
    const navigate = useNavigate(); 
    const [agreeToTerms, setAgreeToTerms] = useState(false);
+
+
+ // ADD THIS STATE for form data
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    skills: "", // You can add these fields later
+    bio: ""     // You can add these fields later
+  });
+
+  // ADD THIS SUBMIT FUNCTION
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!agreeToTerms) {
+      alert("Please agree to the Terms of Service and Privacy Policy");
+      return;
+    }
+
+    try {
+      console.log("Sending signup data:", formData);
+      
+      const result = await apiService.signup({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        skills: formData.skills || "Beginner", // Default value
+        bio: formData.bio || "New user"        // Default value
+      });
+      
+      if (result.success) {
+        alert("Account created successfully!");
+        console.log("User:", result.user);
+        // Redirect to login or dashboard
+        navigate('/signin');
+      } else {
+        alert("Signup failed: " + result.message);
+      }
+    } catch (error) {
+      alert("Error: " + error.message);
+      console.error("Signup error:", error);
+    }
+  };
+
+  // ADD ONCHANGE HANDLERS to your inputs
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+
+
 
   return (
     <form className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md ">
@@ -27,6 +83,10 @@ export default function SignInForm() {
           type="text"
           placeholder="Atia Zaman"
           className="w-full  pl-10 p-2 bg-gray-100 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-3 focus:ring-gray-300 focus:shadow-lg transition"
+        
+          value={formData.name}
+            onChange={(e) => handleInputChange('name', e.target.value)} // ADD THIS
+
         />
       </div>
      </div>
@@ -40,6 +100,11 @@ export default function SignInForm() {
           type="email"
           placeholder="atia@gmail.com"
           className="w-full  pl-10 p-2 bg-gray-100 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-3 focus:ring-gray-300 focus:shadow-lg transition"
+        
+         value={formData.email}
+            onChange={(e) => handleInputChange('email', e.target.value)} // ADD THIS
+        
+        
         />
       </div>
       </div>
@@ -51,6 +116,11 @@ export default function SignInForm() {
           type="password"
           placeholder="Create a strong password"
           className="w-full  pl-10 p-2 bg-gray-100 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-3  focus:ring-gray-300 focus:shadow-lg transition"
+        
+        value={formData.password}
+            onChange={(e) => handleInputChange('password', e.target.value)} // ADD THIS
+        
+        
         />
       </div>
         </div>
