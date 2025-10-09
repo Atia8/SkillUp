@@ -64,7 +64,7 @@ export default function SignInForm() {
 
 
   return (
-    <form className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md ">
+    <form className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md " onSubmit={handleSubmit}>
      
      {/* <div className="mb-4">
           <label className="block text-black font-medium text-center">SU</label>

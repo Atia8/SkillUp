@@ -1,10 +1,57 @@
 import { Mail, Lock, Github,Globe} from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { apiService } from "../services/api";
+
 
 export default function SignInForm() {
    const navigate = useNavigate(); 
+
+
+// ADD THIS STATE for form data
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+
+ // ADD THIS SUBMIT FUNCTION
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      console.log("Sending login data:", formData);
+      
+      const result = await apiService.login({
+        email: formData.email,
+        password: formData.password
+      });
+      
+      if (result.success) {
+        alert("Login successful!");
+        console.log("User:", result.user);
+        // Redirect to dashboard or homepage
+        navigate('/dashboard');
+      } else {
+        alert("Login failed: " + result.message);
+      }
+    } catch (error) {
+      alert("Error: " + error.message);
+      console.error("Login error:", error);
+    }
+  };
+
+  // ADD ONCHANGE HANDLERS to your inputs
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+
+
   return (
-    <form className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md ">
+    <form className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md " onSubmit={handleSubmit}>
      
      {/* <div className="mb-4">
           <label className="block text-black font-medium text-center">SU</label>
@@ -24,6 +71,9 @@ export default function SignInForm() {
           type="email"
           placeholder="atia@gmail.com"
           className="w-full  pl-10 p-2 bg-gray-100 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-3 focus:ring-gray-300 focus:shadow-lg transition"
+        
+            value={formData.email}
+            onChange={(e) => handleInputChange('email', e.target.value)}
         />
       </div>
       </div>
@@ -35,6 +85,11 @@ export default function SignInForm() {
           type="password"
           placeholder="Enter your password"
           className="w-full  pl-10 p-2 bg-gray-100 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-3  focus:ring-gray-300 focus:shadow-lg transition"
+        
+          value={formData.password}
+            onChange={(e) => handleInputChange('password', e.target.value)}
+        
+        
         />
       </div>
         </div>

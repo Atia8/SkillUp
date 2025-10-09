@@ -3,6 +3,7 @@ const API_BASE_URL = 'http://localhost:5000/api';
 
 export const apiService = {
   async signup(userData) {
+    console.log("📤 Sending to backend:", userData);
     const response = await fetch(`${API_BASE_URL}/auth/signup`, {
       method: 'POST',
       headers: {
@@ -10,17 +11,28 @@ export const apiService = {
       },
       body: JSON.stringify(userData),
     });
-    return await response.json();
+    const result = await response.json();
+    console.log("📥 Backend response:", result);
+    return result;
   },
 
   async login(credentials) {
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(credentials),
-    });
-    return await response.json();
+  console.log("📤 Sending login to backend:", credentials);
+  const response = await fetch(`${API_BASE_URL}/auth/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(credentials),
+  });
+  const result = await response.json();
+  console.log("📥 Backend login response:", result);
+  
+  // Save token if login successful
+  if (result.success && result.token) {
+    localStorage.setItem('authToken', result.token);
   }
+  
+  return result;
+}
 };
