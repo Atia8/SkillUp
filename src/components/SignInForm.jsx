@@ -30,7 +30,7 @@ export default function SignInForm() {
         alert("Login successful!");
         console.log("User:", result.user);
         // Redirect to dashboard or homepage
-        navigate('/dashboard');
+        navigate('/discover');
       } else {
         alert("Login failed: " + result.message);
       }
