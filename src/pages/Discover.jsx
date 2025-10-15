@@ -2,11 +2,12 @@
 // PURPOSE: Clean main page using components
 
 import { useState } from "react";
-import Navbar from "../components/navigation/Navbar";
+//import Navbar from "../components/navigation/Navbar";
 import SearchBar from "../components/discover/SearchBar";
 import SkillsSection from "../components/discover/SkillsSection";
 import MentorsSection from "../components/discover/MentorsSection";
 import HeroText from "../components/discover/HeroText";
+import Navbar from '../components/navigation/ResponsiveNavbar';
 
 export default function Discover() {
   const [searchQuery, setSearchQuery] = useState("");

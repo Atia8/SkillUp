@@ -72,3 +72,6 @@ export default function Navbar() {
     </nav>
   );
 }
+
+//FILE: src/components/navigation/Navbar.jsx
+

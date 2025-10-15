@@ -53,13 +53,13 @@ const MentorsSection = () => {
   ];
 
   return (
-    <div className="py-8">
+    <div className="py-8 px-2 sm:px-0">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Featured Mentors</h2>
         <p className="text-gray-600">Connect with experienced mentors in your chosen skills</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-2 sm:px-0">
         {mockMentors.map(mentor => (
           <MentorCard key={mentor.id} mentor={mentor} />
         ))}

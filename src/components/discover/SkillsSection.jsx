@@ -33,9 +33,9 @@ const SkillsSection = () => {
   };
 
   return (
-    <div className="py-2">
+    <div className="py-2 pl-2 sm:pl-0">
       {/* Section Header */}
-      <div className="mb-4">
+      <div className="mb-4 pl-1 sm:pl-0">
         <h2 className="text-2xl font-semibold text-gray-900 mb-2">
           Popular Skills
         </h2>
