@@ -6,6 +6,7 @@ const { testConnection } = require('./config/database');
 
 // Import routes
 const authRoutes = require('./routes/auth');
+const uploadRoutes = require('./routes/upload'); // profile picture
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes)
+app.use('/api/upload', uploadRoutes);
+app.use('/uploads', express.static('uploads'))
 
 // Health check route
 app.get('/api/health', (req, res) => {
