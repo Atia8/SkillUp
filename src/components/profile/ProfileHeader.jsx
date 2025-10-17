@@ -4,6 +4,7 @@ import { useRef,useState } from 'react';
 const ProfileHeader = ({ user }) => {
 
     const fileInputRef = useRef(null); // Create ref
+    const [isUploading, setIsUploading] = useState(false);
   const [profileImage, setProfileImage] = useState(null); // Add this line
   // 
        // 3. Function to handle camera click
