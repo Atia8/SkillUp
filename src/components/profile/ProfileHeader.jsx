@@ -11,12 +11,52 @@ const ProfileHeader = ({ user }) => {
     fileInputRef.current?.click(); // Trigger hidden file input
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
   const file = event.target.files[0];
-  if (file) {
-    const imageUrl = URL.createObjectURL(file);
-    setProfileImage(imageUrl);
-  }
+  if (!file) return;
+
+    try {
+      setIsUploading(true);
+      
+      const formData = new FormData();
+      formData.append('avatar', file);
+
+      // Get token from wherever you store it (localStorage, context, etc.)
+      const token = localStorage.getItem('token'); // or from your auth context
+
+      const response = await fetch('http://localhost:5000/api/upload/avatar', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`, // 👈 Include JWT token
+        },
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Success - update the UI with new avatar
+        console.log('Avatar uploaded:', result.avatarUrl);
+        // You might want to update the user context or reload user data
+        window.location.reload(); // Simple refresh for now
+      } else {
+        // Error handling
+        console.error('Upload failed:', result.error);
+        alert(`Upload failed: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert('Failed to upload avatar');
+    } finally {
+      setIsUploading(false);
+      // Reset file input
+      event.target.value = '';
+    }
+
+  // if (file) {
+  //   const imageUrl = URL.createObjectURL(file);
+  //   setProfileImage(imageUrl);
+  // }
 };
 
   const { name, title, bio, avatar, rating, reviewCount, followerCount, followingCount } = user;
@@ -38,6 +78,7 @@ const ProfileHeader = ({ user }) => {
         className="hidden"
         accept="image/*" // Only allow images
          onChange={handleFileChange} // Add this
+          disabled={isUploading}
       />
       
 
@@ -47,9 +88,13 @@ const ProfileHeader = ({ user }) => {
         {/* Avatar */}
         <div className="relative w-27 h-27 bg-gray-200 rounded-full flex items-center justify-center text-3xl sm:self-start">
           {/* {avatar} */}
-
-          {profileImage ? (
-  <img src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
+  {/* Show current avatar or placeholder */}
+          {user.avatar_url ? (
+            <img 
+              src={`http://localhost:5000${user.avatar_url}`} 
+              alt="Profile" 
+              className="w-full h-full rounded-full object-cover"
+            />
 ) : (
           <svg 
     width="80" 
@@ -68,9 +113,14 @@ const ProfileHeader = ({ user }) => {
     <button
   
    onClick={handleCameraClick}
-  
-className="absolute bottom-0 right-0 w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center border-2 border-white">
+  disabled={isUploading}
+className="absolute bottom-0 right-0 w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center border-2 border-white
+hover:bg-gray-600 disabled:opacity-50">
+  {isUploading ? (
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            ) : (
     <Camera size={16} className="text-white" />
+            )}
   </button>
 
 
