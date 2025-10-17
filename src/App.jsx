@@ -42,7 +42,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/terms" element={<TermsPage />} /> 
          <Route path="/privacy" element={<PrivacyPage />} /> 
-        <Route path="/" element={<Discover />} /> {/* Default route */}
+        <Route path="/" element={<SignInPage />} /> {/* Default route */}
         <Route path="/discover" element={<Discover />} />
         <Route path="/profile" element={<Profile />} />
         {/* Add more routes as needed */}
