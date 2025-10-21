@@ -1,0 +1,50 @@
+const express = require('express');
+const router = express.Router();
+const { pool } = require('../config/database');
+
+// GET /api/mentors - Get all users for discovery page
+router.get('/', async (req, res) => {
+  try {
+     console.log('✅ Fetching all mentors for discovery page');
+
+     const query = `
+      SELECT 
+        u.id,
+        u.name,
+        u.email,
+        up.title,
+        up.avatar_url,
+        COALESCE(AVG(r.rating), 0) as rating,
+        COUNT(r.id) as review_count,
+        up.bio
+      FROM users u
+      LEFT JOIN user_profiles up ON u.id = up.user_id
+      LEFT JOIN reviews r ON u.id = r.reviewee_id
+      GROUP BY u.id
+      ORDER BY rating DESC, review_count DESC
+    `;
+    const [mentors] = await pool.execute(query);
+     // Format the response to match your frontend expectations
+    const formattedMentors = mentors.map(mentor => ({
+      id: mentor.id,
+      name: mentor.name,
+      title: mentor.title || '--',
+      avatar: mentor.avatar_url, // This will match your frontend 'avatar' field
+      rating: parseFloat(mentor.rating).toFixed(1), // Format to 1 decimal
+      reviewCount: mentor.review_count,
+      bio: mentor.bio || '--'
+    }));
+     console.log(`✅ Found ${formattedMentors.length} mentors`);
+    res.json(formattedMentors);
+  } catch (error) {
+    // Error handling
+     console.error('❌ Mentors fetch error:', error);
+    res.status(500).json({ 
+      success: false,
+      message: 'Failed to fetch mentors',
+      error: error.message 
+    });
+  }
+});
+
+module.exports = router;
