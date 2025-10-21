@@ -13,7 +13,27 @@ const MentorCard = ({ mentor }) => {
     <div className="bg-white rounded-2xl border border-gray-300 p-6 hover:shadow-md transition-shadow">
       <div className="flex items-center gap-4 mb-4">
         <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-xl">
-          {mentor.avatar}
+          {/* {mentor.avatar} */}
+           {mentor.avatar_url? (
+            <img 
+              src={`http://localhost:5000${mentor.avatar_url}`} 
+              alt={mentor.name}
+              className="w-full h-full rounded-full object-cover"
+            />
+          ) : (
+            <svg 
+              width="24" 
+              height="24" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2"
+              className="text-gray-500"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          )}
         </div>
         <div>
           <h3 className="font-semibold text-gray-900">{mentor.name}</h3>
@@ -34,19 +54,24 @@ const MentorCard = ({ mentor }) => {
 
             <span>{mentor.rating} </span>
 
-            <span>({mentor.students})</span>
+            <span>({mentor.reviewCount})</span>
             
           </div>
         </div>
       </div>
       
-      <div className="flex flex-wrap gap-2 mb-4">
+    
+      <div className=" text-sm text-gray-600 mb-2 font-sans">
+      {mentor.title}
+      </div>
+
+      {/* <div className="flex flex-wrap gap-2 mb-4">
         {mentor.skills.map(skill => (
           <span key={skill} className="px-2 py-1 bg-gray-200 text-black rounded-full text-xs font-semibold">
             {skill}
           </span>
         ))}
-      </div>
+      </div> */}
       
       <div className="flex gap-2">
         <button className="flex items-center justify-center gap-2 flex-1 bg-black text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-800">

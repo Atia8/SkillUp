@@ -3,6 +3,7 @@ const router = express.Router();
 const { pool } = require('../config/database');
 const authMiddleware = require('../middleware/authMiddleware');
 const { updateProfile } = require('../controllers/profileController');
+const { getPublicProfile } = require('../controllers/publicProfileController'); // 👈 Public ops
 
 console.log('✅ Users route loaded');
 
@@ -49,5 +50,7 @@ console.log('Fetching profile for user:', userId);
 });
 // PATCH /api/users/profile - Update profile
 router.patch('/profile', authMiddleware, updateProfile);
+// GET /api/users/:id/profile - Public (others' profiles)
+router.get('/:id/profile', getPublicProfile);
 
 module.exports = router;

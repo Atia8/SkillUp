@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
       id: mentor.id,
       name: mentor.name,
       title: mentor.title || '--',
-      avatar: mentor.avatar_url, // This will match your frontend 'avatar' field
+      avatar_url: mentor.avatar_url, // This will match your frontend 'avatar' field
       rating: parseFloat(mentor.rating).toFixed(1), // Format to 1 decimal
       reviewCount: mentor.review_count,
       bio: mentor.bio || '--'
