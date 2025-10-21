@@ -27,6 +27,10 @@ export default function SignInForm() {
       });
       
       if (result.success) {
+         // ✅ Save token to localStorage
+      localStorage.setItem('token', result.token);
+      //console.log('✅ Token saved:', result.token);
+      
         alert("Login successful!");
         console.log("User:", result.user);
         // Redirect to dashboard or homepage

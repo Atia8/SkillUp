@@ -7,6 +7,7 @@ const { testConnection } = require('./config/database');
 // Import routes
 const authRoutes = require('./routes/auth');
 const uploadRoutes = require('./routes/upload'); // profile picture
+const userRoutes = require('./routes/users');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes)
 app.use('/api/upload', uploadRoutes);
 app.use('/uploads', express.static('uploads'))
+app.use('/api/users', userRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -40,6 +42,8 @@ const initializeServer = async () => {
     console.log(`✅ Server running on http://localhost:${PORT}`);
       console.log(`🔐 Auth routes: http://localhost:${PORT}/api/auth/signup`);
     console.log(`🔐 Auth routes: http://localhost:${PORT}/api/auth/login`);
+
+    console.log(`📁 Upload routes: http://localhost:${PORT}/api/upload/avatar`); 
     console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
   });
 };

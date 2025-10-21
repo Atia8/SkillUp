@@ -1,12 +1,16 @@
 import { Star, Edit,UserPlus, MessageCircle,Camera } from 'lucide-react';
 import { useRef,useState } from 'react';
+import EditForm from './EditForm'; // Adjust path as needed
 
-const ProfileHeader = ({ user }) => {
-
+const ProfileHeader = ({ user,onUserUpdate }) => {
+ 
+  
     const fileInputRef = useRef(null); // Create ref
     const [isUploading, setIsUploading] = useState(false);
-  const [profileImage, setProfileImage] = useState(null); // Add this line
-  // 
+    //const [isEditing, setIsEditing] = useState(false); // 👈 ADD THIS
+    const [showEditForm, setShowEditForm] = useState(false);
+
+
        // 3. Function to handle camera click
   const handleCameraClick = () => {
     fileInputRef.current?.click(); // Trigger hidden file input
@@ -39,7 +43,7 @@ const ProfileHeader = ({ user }) => {
         // Success - update the UI with new avatar
         console.log('Avatar uploaded:', result.avatarUrl);
         // You might want to update the user context or reload user data
-        window.location.reload(); // Simple refresh for now
+         window.location.reload(); // Simple refresh for now
       } else {
         // Error handling
         console.error('Upload failed:', result.error);
@@ -54,10 +58,7 @@ const ProfileHeader = ({ user }) => {
       event.target.value = '';
     }
 
-  // if (file) {
-  //   const imageUrl = URL.createObjectURL(file);
-  //   setProfileImage(imageUrl);
-  // }
+  
 };
 
   const { name, title, bio, avatar, rating, reviewCount, followerCount, followingCount } = user;
@@ -68,10 +69,24 @@ const ProfileHeader = ({ user }) => {
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6 relative ">
       {/* Edit Button */}
-      <button className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600">
+      <button 
+      onClick={() => setShowEditForm(true)} 
+      className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600">
         <Edit size={20} />
       </button>
-
+      
+      
+      {showEditForm && (
+    <EditForm 
+      user={user}
+         onSave={() => {
+            // 3. Call parent's update function with new data
+            onUserUpdate();
+            setShowEditForm(false);
+          }}
+      onCancel={() => setShowEditForm(false)} // 👈 Close on cancel
+    />
+  )}
 
   <input
         type="file"
@@ -130,10 +145,10 @@ hover:bg-gray-600 disabled:opacity-50">
         
         
         {/* Name & Title */}
-        <div className="text-center sm:text-left sm:mt-1">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">{name}</h1>
-          <p className="text-xl text-gray-600 mb-3">{title}</p>
-          <p className="text-gray-600">{bio}</p>
+        <div className="text-center sm:text-left sm:mt-1 w-full">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2 break-words">{name}</h1>
+          <p className="text-xl text-gray-600 mb-3 break-words">{title}</p>
+          <p className="text-gray-600 break-words">{bio}</p>
             {/* Rating & Reviews Row */}
       <div className="flex items-center justify-center sm:items-start sm:justify-start  gap-2 mb-2 pt-3">
         <div className="flex items-center gap-2">
