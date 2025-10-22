@@ -1,5 +1,5 @@
 import { Star,UserPlus, MessageCircle } from 'lucide-react';
-
+import { Link } from 'react-router-dom';
 
 
 const MentorCard = ({ mentor }) => {
@@ -10,6 +10,7 @@ const MentorCard = ({ mentor }) => {
 
 
   return (
+     <Link to={`/users/${mentor.id}`} className="block">
     <div className="bg-white rounded-2xl border border-gray-300 p-6 hover:shadow-md transition-shadow">
       <div className="flex items-center gap-4 mb-4">
         <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-xl">
@@ -84,6 +85,7 @@ const MentorCard = ({ mentor }) => {
         </button>
       </div>
     </div>
+     </Link>
   );
 };
 

@@ -2,7 +2,7 @@ import { Star, Edit,UserPlus, MessageCircle,Camera } from 'lucide-react';
 import { useRef,useState } from 'react';
 import EditForm from './EditForm'; // Adjust path as needed
 
-const ProfileHeader = ({ user,onUserUpdate }) => {
+const ProfileHeader = ({ user,onUserUpdate,isOwnProfile=true }) => {
  
   
     const fileInputRef = useRef(null); // Create ref
@@ -69,12 +69,13 @@ const ProfileHeader = ({ user,onUserUpdate }) => {
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6 relative ">
       {/* Edit Button */}
+       {isOwnProfile && ( 
       <button 
       onClick={() => setShowEditForm(true)} 
       className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600">
         <Edit size={20} />
       </button>
-      
+       )}
       
       {showEditForm && (
     <EditForm 
@@ -126,8 +127,8 @@ const ProfileHeader = ({ user,onUserUpdate }) => {
   </svg>
 )}
 {/* Camera Icon */}
+ {isOwnProfile && (
     <button
-  
    onClick={handleCameraClick}
   disabled={isUploading}
 className="absolute bottom-0 right-0 w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center border-2 border-white
@@ -138,7 +139,7 @@ hover:bg-gray-600 disabled:opacity-50">
     <Camera size={16} className="text-white" />
             )}
   </button>
-
+ )}
 
 
         </div>

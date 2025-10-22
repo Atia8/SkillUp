@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const { pool } = require('../config/database');
-
+const authMiddleware = require('../middleware/authMiddleware');
 // GET /api/mentors - Get all users for discovery page
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
   try {
      console.log('✅ Fetching all mentors for discovery page');
+     const currentUserId = req.user.id;
 
      const query = `
       SELECT 
@@ -20,10 +21,13 @@ router.get('/', async (req, res) => {
       FROM users u
       LEFT JOIN user_profiles up ON u.id = up.user_id
       LEFT JOIN reviews r ON u.id = r.reviewee_id
+       WHERE u.id != ?
       GROUP BY u.id
       ORDER BY rating DESC, review_count DESC
     `;
-    const [mentors] = await pool.execute(query);
+    //const [mentors] = await pool.execute(query);
+
+    const [mentors] = await pool.execute(query, [currentUserId]);
      // Format the response to match your frontend expectations
     const formattedMentors = mentors.map(mentor => ({
       id: mentor.id,

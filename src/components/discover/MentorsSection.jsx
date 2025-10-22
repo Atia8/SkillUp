@@ -8,7 +8,12 @@ const MentorsSection = () => {
    useEffect(() => {
     const fetchMentors = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/mentors');
+        const token = localStorage.getItem('token'); 
+        const response = await fetch('http://localhost:5000/api/mentors',{
+         headers: {
+            'Authorization': `Bearer ${token}` // 👈 Add token to headers
+          }
+        });
         
         if (response.ok) {
           const mentorsData = await response.json();

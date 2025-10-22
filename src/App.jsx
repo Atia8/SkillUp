@@ -28,6 +28,7 @@ import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';   
 import Discover from './pages/Discover';
 import Profile from './pages/Profile';
+import UserProfile from './pages/UserProfile';
 
 //import SignUpForm from './pages/SignUp';
 
@@ -45,6 +46,7 @@ function App() {
         <Route path="/" element={<SignInPage />} /> {/* Default route */}
         <Route path="/discover" element={<Discover />} />
         <Route path="/profile" element={<Profile />} />
+          <Route path="/users/:userId" element={<UserProfile />} /> 
         {/* Add more routes as needed */}
       </Routes>
     </Router>
