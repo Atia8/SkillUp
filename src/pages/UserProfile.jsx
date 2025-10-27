@@ -2,6 +2,8 @@
 import React from 'react';
 import ProfileHeader from '../components/profile/ProfileHeader';
 import Navbar from '../components/navigation/ResponsiveNavbar';
+import ReviewSection from '../components/reviews/ReviewsSection';
+import AnotherSection from '../components/reviews/AnotherSection';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -48,6 +50,15 @@ const UserProfile = () => {
           onUserUpdate={fetchUserProfile}
           isOwnProfile={false} // 👈 This hides the edit button
         />
+         <div className="flex flex-col sm:flex-row gap-2 px-4 pt-2 mb-2">
+           <div className="flex-1"><AnotherSection /></div>
+           <div className="flex-1">
+            <ReviewSection 
+            user={user}
+              isOwnAccount={false}
+           />
+           </div>
+      </div>
       </div>
     </div>
   );

@@ -29,6 +29,9 @@ CREATE TABLE IF NOT EXISTS reviews (
     rating INT CHECK (rating >= 1 AND rating <= 5),
     comment TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (reviewer_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (reviewee_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (reviewee_id) REFERENCES users(id) ON DELETE CASCADE,
+      -- One active review per user pair
+  UNIQUE KEY unique_review (reviewer_id, reviewee_id)
 );

@@ -29,6 +29,7 @@ console.log('Fetching profile for user:', userId);
     );
 
      const userData = {
+      id:userId,
       name: users[0]?.name,
       email: users[0]?.email,
       title: profiles[0]?.title || '--',

@@ -3,6 +3,9 @@ import React from 'react';
 //import Navbar from '../components/navigation/Navbar';
 import ProfileHeader from '../components/profile/ProfileHeader';
 import Navbar from '../components/navigation/ResponsiveNavbar';
+import ReviewSection from '../components/reviews/ReviewsSection';
+import AnotherSection from '../components/reviews/AnotherSection';
+
 import { useState, useEffect } from 'react'; 
 
 const Profile = () => {
@@ -52,8 +55,8 @@ const [user, setUser] = useState(null);
   if (!user) {
     return <div>Failed to load profile</div>;
   }
-
-
+ 
+console.log('User id:', user.id);
   return (
     <div className="min-h-screen bg-white w-full">
       <Navbar />
@@ -65,6 +68,15 @@ const [user, setUser] = useState(null);
         onUserUpdate={handleUserUpdate} 
          />
         {/* We'll add other sections here later */}
+      </div>
+      <div className="flex flex-col sm:flex-row gap-2 px-4 pt-2 mb-2">
+           <div className="flex-1"><AnotherSection /></div>
+           <div className="flex-1">
+            <ReviewSection 
+            user={user}
+              isOwnAccount={true}
+           />
+           </div>
       </div>
     </div>
   );

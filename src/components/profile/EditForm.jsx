@@ -57,7 +57,7 @@ const EditForm = ({ user, onSave, onCancel }) => {
     }
   };
   return (
-    <div className="fixed inset-0 bg-white z-50 p-2">
+    <div className="fixed inset-0 backdrop-blur-[3px] backdrop-brightness-50 z-50 p-4 flex items-center justify-center">
       <div className="bg-white rounded-lg w-full max-w-2xl mx-auto mt-15 p-6 border border-gray-200 shadow shadow-gray-100">
         <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
 
@@ -69,7 +69,7 @@ const EditForm = ({ user, onSave, onCancel }) => {
       )}
 
        <div className="mb-6">
-  < label className="block text-balance font-semibold text-gray-900 mb-2">
+  < label className="block text-lg font-semibold text-gray-900 mb-2">
     Title
   </label>
         <input
@@ -79,13 +79,13 @@ const EditForm = ({ user, onSave, onCancel }) => {
         setFormData({...formData, title: e.target.value});
         setError('');
       }}
-    className="w-full px-3 py-2 border border-gray-300 rounded text-sm  focus:border-black"
+    className="w-full px-3 py-2 border border-gray-300 rounded text-lg  focus:border-black placeholder-gray-400"
     placeholder="e.g. Senior Developer at Tech Company"
   />
        </div>
         
 <div className="mb-6">
-  < label className="block text-balance font-semibold text-gray-900 mb-2">
+  < label className="block text-lg font-semibold text-gray-900 mb-2">
     Bio
   </label>
         <textarea
@@ -94,7 +94,7 @@ const EditForm = ({ user, onSave, onCancel }) => {
               setFormData({...formData, bio: e.target.value});
                setError(''); // 👈 Clear error when user starts typing
             }}
-    className="w-full px-3 py-2 border border-gray-300 rounded text-sm  focus:border-black resize-none"
+    className="w-full px-3 py-2 border border-gray-300 rounded text-lg  focus:border-black resize-none"
     placeholder="Describe your experience, skills, and background..."
      rows="5"
   />

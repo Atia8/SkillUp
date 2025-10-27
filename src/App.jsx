@@ -29,14 +29,23 @@ import PrivacyPage from './pages/PrivacyPage';
 import Discover from './pages/Discover';
 import Profile from './pages/Profile';
 import UserProfile from './pages/UserProfile';
+import AllReview from './pages/AllReview';
 
-//import SignUpForm from './pages/SignUp';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-// import SignUpPage from './pages/signup'; // When you create it
-// import Dashboard from './pages/dashboard'; // When you create it
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+    },
+  },
+});
 
 function App() {
   return (
+     <QueryClientProvider client={queryClient}>
+      {/* Your existing app code */}
     <Router>
       <Routes>
         <Route path="/signin" element={<SignInPage />} />
@@ -47,9 +56,11 @@ function App() {
         <Route path="/discover" element={<Discover />} />
         <Route path="/profile" element={<Profile />} />
           <Route path="/users/:userId" element={<UserProfile />} /> 
+           <Route path="/review/:userId" element={<AllReview />} />
         {/* Add more routes as needed */}
       </Routes>
     </Router>
+      </QueryClientProvider>
   );
 }
 

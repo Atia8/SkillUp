@@ -67,7 +67,7 @@ const ProfileHeader = ({ user,onUserUpdate,isOwnProfile=true }) => {
   const emptyStars = 5 - filledStars;
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6 relative ">
+    <div className="bg-white rounded-xl border border-gray-200 p-6 relative ">
       {/* Edit Button */}
        {isOwnProfile && ( 
       <button 
