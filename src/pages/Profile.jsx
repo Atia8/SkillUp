@@ -62,14 +62,18 @@ console.log('User id:', user.id);
       <Navbar />
       {/* <div className="mx-auto px-4 py-8 max-w-7xl"> */}
          {/* <div className="container mx-auto py-6 sm:px-6 lg:px-8 w-full"> */}
-          <div className="w-full px-4 py-8"> {/* 👈 Full width */}
+
+         {/* Main Grid Container */}
+      {/* <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 px-4 py-8 max-w-7xl mx-auto"> */}
+  
+ <div className="mx-auto max-w-4xl md:max-w-6xl w-full px-4 py-3">
+          <div className="w-full px-4 py-6"> 
         <ProfileHeader 
         user={user}
         onUserUpdate={handleUserUpdate} 
          />
-        {/* We'll add other sections here later */}
       </div>
-      <div className="flex flex-col sm:flex-row gap-2 px-4 pt-2 mb-2">
+      <div className="flex flex-col sm:flex-row gap-2 px-4 pt-2 mb-4">
            <div className="flex-1"><AnotherSection /></div>
            <div className="flex-1">
             <ReviewSection 
@@ -77,6 +81,8 @@ console.log('User id:', user.id);
               isOwnAccount={true}
            />
            </div>
+           </div>
+
       </div>
     </div>
   );

@@ -44,12 +44,14 @@ const UserProfile = () => {
   return (
     <div className="min-h-screen bg-white w-full">
       <Navbar />
-      <div className="w-full px-4 py-8">
+      <div className="mx-auto max-w-4xl md:max-w-6xl w-full px-4 py-3">
+      <div className="w-full px-4 py-6">
         <ProfileHeader 
           user={user}
           onUserUpdate={fetchUserProfile}
           isOwnProfile={false} // 👈 This hides the edit button
         />
+        </div>
          <div className="flex flex-col sm:flex-row gap-2 px-4 pt-2 mb-2">
            <div className="flex-1"><AnotherSection /></div>
            <div className="flex-1">
@@ -60,6 +62,8 @@ const UserProfile = () => {
            </div>
       </div>
       </div>
+      
+
     </div>
   );
 };

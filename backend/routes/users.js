@@ -28,6 +28,16 @@ console.log('Fetching profile for user:', userId);
       [userId]
     );
 
+       const [reviews] = await pool.execute(
+      `SELECT rating FROM reviews WHERE reviewee_id = ?`,
+      [userId]
+    );
+
+    const reviewCount = reviews.length;
+    const avgRating = reviews.length > 0 
+      ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length 
+      : 0;
+
      const userData = {
       id:userId,
       name: users[0]?.name,
@@ -35,8 +45,8 @@ console.log('Fetching profile for user:', userId);
       title: profiles[0]?.title || '--',
       bio: profiles[0]?.bio || '--',
       avatar_url: profiles[0]?.avatar_url,
-      rating: 0,
-      reviewCount: 0, 
+      rating: parseFloat(avgRating).toFixed(1),
+      reviewCount: reviewCount, 
       followerCount: 0,
       followingCount: 0
     };

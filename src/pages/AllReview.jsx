@@ -85,6 +85,9 @@ import { fetchUserReviews } from '../api/reviews';
 
 import { Star } from 'lucide-react';
 import RatingProgressBar from '../components/reviews/RatingProgressBar';
+import ReviewCard from '../components/reviews/ReviewCard';
+
+
 
 const AllReview = () => {
 
@@ -118,12 +121,12 @@ const { data: reviews = [], isLoading, error } = useQuery({
   };   
 
 return(
-    <div>
+    <div >
        
         <div className='mb-3'>
              <Navbar />
         </div>
-        <div className="flex flex-col gap-4 p-7">
+        <div className="flex flex-col gap-4 p-7 max-w-7xl mx-auto">
         <div className='flex items-center justify-between '>
             <h1 className="text-4xl font-bold ">Reviews & Ratings</h1>
         {!isOwnAccount && (
@@ -139,8 +142,10 @@ return(
    
     <p className="text-gray-600 font-sans text-lg">See what others are saying about {userName}'s teaching</p>
     {/* <p className="text-gray-600 font-sans text-lg">{reviews.averageRating}</p> */}
-<div className="flex flex-col sm:flex-row gap-3">
-    <div className="flex-1 border border-gray-200 rounded-lg flex flex-col  p-3">
+{/* <div className="flex flex-col sm:flex-row justify-between"> */}
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[400px_1fr] xl:grid-cols-[500px_700px] gap-6 justify-center">
+
+    <div className=" border border-gray-200 rounded-lg flex flex-col  p-3">
       <h4>Overall Rating</h4>
       <div className="flex flex-col justify-center items-center">
            <h1 className="font-semibold text-5xl mt-1.5">{reviews.averageRating}</h1>
@@ -171,13 +176,17 @@ return(
 
     </div>
    
-   {/* <div className="flex-1 border border-gray-200 rounded-lg flex flex-col  p-3">
-      <h4>Overall Rating</h4>
+   <div className=" border border-gray-200 rounded-lg flex flex-col p-3 gap-4 ">
+      {/* <h4>Overall Rating</h4>
       <div className="flex flex-col justify-center items-center">
            <h1 className="font-semibold text-3xl mt-1.5">{reviews.averageRating}</h1>
 
-      </div>
-    </div> */}
+      </div> */}
+        
+        {reviews.reviews?.map(review => (
+    <ReviewCard key={review.id} reviewer={review} />
+  ))}
+    </div>
 </div>
 
     </div>

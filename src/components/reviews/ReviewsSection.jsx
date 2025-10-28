@@ -105,7 +105,7 @@
 
 import { Star} from 'lucide-react';
 import { useState, useEffect } from 'react'; 
-import ReviewCard from './ReviewCard';
+import RecentReview from './RecentReview';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { fetchUserReviews } from '../../api/reviews';
@@ -137,24 +137,30 @@ const handleViewAllReviews = () => {
   };
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5">
+    <div className="bg-white rounded-xl border border-gray-200 p-4">
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <Star size={22} className="text-yellow-500"/>
         <h3 className="text-lg font-sans text-gray-900">Recent Reviews</h3>
       </div>
-      {/* <div>
-         {reviews.map(review => (
-          <ReviewCard key={review.id} reviewer={review} />
-        ))}
-      </div> */}
+     
+      {/* Show first 2 reviews */}
+<div className="space-y-0 mb-4">
+  {reviews.reviews?.slice(0, 2).map((review, index,array) => (
+    <div key={review.id}>
+      <RecentReview reviewer={review} />
+      {index < array.length - 1 && <hr className="border-gray-300 mx-2 mb-1" />} {/* ← Add HR between reviews */}
+    </div>
+  ))}
+</div>
+
       <div>
         <button
  onClick={handleViewAllReviews} 
-         className="w-full text-center text-blue-500 hover:text-blue-700 font-medium py-2"
+         className="rounded-lg border border-gray-300 w-full text-center text-black hover:bg-gray-200 font-semibold py-1"
         >
           
-          view all reviews
+          View All Reviews
         </button>
       </div>
     </div>
