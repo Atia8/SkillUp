@@ -10,6 +10,7 @@ const uploadRoutes = require('./routes/upload'); // profile picture
 const userRoutes = require('./routes/users');
 const mentorRoutes = require('./routes/mentors');
 const reviewRoutes = require('./routes/reviews');
+const followRoutes = require('./routes/follow');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/uploads', express.static('uploads'))
 app.use('/api/users', userRoutes);
 app.use('/api/mentors', mentorRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/follow', followRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

@@ -127,21 +127,29 @@ const formatTimeAgo = (date) => {
   const diffInMonths = Math.floor(diffInDays / 30);
   const diffInYears = Math.floor(diffInDays / 365);
 
-  if (diffInSeconds < 60) {
-    return `${diffInSeconds} second${diffInSeconds !== 1 ? 's' : ''} ago`;
-  } else if (diffInMinutes < 60) {
-    return `${diffInMinutes} minute${diffInMinutes !== 1 ? 's' : ''} ago`;
-  } else if (diffInHours < 24) {
-    return `${diffInHours} hour${diffInHours !== 1 ? 's' : ''} ago`;
-  } else if (diffInDays < 7) {
-    return `${diffInDays} day${diffInDays !== 1 ? 's' : ''} ago`;
-  } else if (diffInWeeks < 4) {
-    return `${diffInWeeks} week${diffInWeeks !== 1 ? 's' : ''} ago`;
-  } else if (diffInMonths < 12) {
-    return `${diffInMonths} month${diffInMonths !== 1 ? 's' : ''} ago`;
-  } else {
-    return `${diffInYears} year${diffInYears !== 1 ? 's' : ''} ago`;
-  }
+  // if (diffInSeconds < 60) {
+  //   return `${diffInSeconds} second${diffInSeconds !== 1 ? 's' : ''} ago`;
+  // } else if (diffInMinutes < 60) {
+  //   return `${diffInMinutes} minute${diffInMinutes !== 1 ? 's' : ''} ago`;
+  // } else if (diffInHours < 24) {
+  //   return `${diffInHours} hour${diffInHours !== 1 ? 's' : ''} ago`;
+  // } else if (diffInDays < 7) {
+  //   return `${diffInDays} day${diffInDays !== 1 ? 's' : ''} ago`;
+  // } else if (diffInWeeks < 4) {
+  //   return `${diffInWeeks} week${diffInWeeks !== 1 ? 's' : ''} ago`;
+  // } else if (diffInMonths < 12) {
+  //   return `${diffInMonths} month${diffInMonths !== 1 ? 's' : ''} ago`;
+  // } else {
+  //   return `${diffInYears} year${diffInYears !== 1 ? 's' : ''} ago`;
+  // }
+
+  if (diffInSeconds < 60) return `${diffInSeconds}s ago`;
+  if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+  if (diffInHours < 24) return `${diffInHours}h ago`;
+  if (diffInDays < 7) return `${diffInDays}d ago`;
+  return `${diffInWeeks}w ago`;
+
+
 };
 
 module.exports = {

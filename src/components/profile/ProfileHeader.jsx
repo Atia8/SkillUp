@@ -1,14 +1,32 @@
 import { Star, Edit,UserPlus, MessageCircle,Camera } from 'lucide-react';
 import { useRef,useState } from 'react';
 import EditForm from './EditForm'; // Adjust path as needed
+import FollowButton from './FollowButton'; // Adjust path as needed
+
+import {getFollowCount} from '../../api/followApi'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const ProfileHeader = ({ user,onUserUpdate,isOwnProfile=true }) => {
  
-  
+   const { 
+        data: countData, 
+        isLoading: countLoading, 
+        error: countError 
+    } = useQuery({
+        queryKey: ['followCount', user.id], // Unique key for this user's status
+        queryFn: () => getFollowCount(user.id),
+        enabled: !!user.id, // Only run if userId exists
+    });
+
     const fileInputRef = useRef(null); // Create ref
     const [isUploading, setIsUploading] = useState(false);
     //const [isEditing, setIsEditing] = useState(false); // 👈 ADD THIS
     const [showEditForm, setShowEditForm] = useState(false);
+
+    
+
+
+
 
 
        // 3. Function to handle camera click
@@ -69,13 +87,13 @@ const ProfileHeader = ({ user,onUserUpdate,isOwnProfile=true }) => {
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-6 relative ">
       {/* Edit Button */}
-       {isOwnProfile && ( 
+       {/* {isOwnProfile && ( 
       <button 
       onClick={() => setShowEditForm(true)} 
       className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600">
         <Edit size={20} />
       </button>
-       )}
+       )} */}
       
       {showEditForm && (
     <EditForm 
@@ -173,19 +191,42 @@ hover:bg-gray-600 disabled:opacity-50">
 
  <div className="flex items-center justify-center sm:justify-start gap-6">
         <div className="text-center">
-          <div className="text-sm font-semibold text-gray-600">{followerCount} followers</div>
+          <div className="text-sm font-semibold text-gray-600">{countData?.data?.followerCount || 0} followers</div>
         </div>
         <div className="text-center">
-          <div className="text-sm font-semibold text-gray-600">{followingCount} following</div>
+          <div className="text-sm font-semibold text-gray-600">{countData?.data?.followingCount || 0} following</div>
         </div>
       </div>
 
   <div className="flex items-center justify-center sm:justify-start gap-4 sm:self-start pt-5">
-            <button className="flex justify-center items-center bg-black text-white px-6 py-2 rounded-lg font-medium hover:bg-gray-800 transition-colors gap-1">
+            
+            {isOwnProfile && (
+            <button 
+             onClick={() => setShowEditForm(true)}
+            className="flex justify-center items-center bg-black text-white px-3 py-2 rounded-lg font-medium hover:bg-gray-700 transition-colors gap-1 whitespace-nowrap">
+            <Edit size={18} />
+              Edit Profile
+            </button>
+            )}
+
+             {/* {!isOwnProfile && (
+            <button 
+             
+            className="flex justify-center items-center bg-black text-white px-3 py-2 rounded-lg font-medium hover:bg-gray-700 transition-colors gap-1">
             <UserPlus size={18} />
               Follow
             </button>
-            <button className="flex justify-center items-center border border-gray-400 px-6 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors gap-1">
+            )} */}
+           {!isOwnProfile && (
+          <FollowButton 
+            userId={user.id} 
+            isOwnProfile={isOwnProfile} 
+          />
+        )}
+
+
+
+            <button className="flex justify-center items-center border border-gray-400 px-3 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors gap-1">
                 <MessageCircle size={18} />
               Message
             </button>
