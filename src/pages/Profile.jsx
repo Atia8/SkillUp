@@ -5,6 +5,8 @@ import ProfileHeader from '../components/profile/ProfileHeader';
 import Navbar from '../components/navigation/ResponsiveNavbar';
 import ReviewSection from '../components/reviews/ReviewsSection';
 import AnotherSection from '../components/reviews/AnotherSection';
+import SkillSection from '../components/skill/skillsection';
+import WishSection from '../components/wish/wishSection';
 
 import { useState, useEffect } from 'react'; 
 
@@ -67,21 +69,44 @@ console.log('User id:', user.id);
       {/* <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 px-4 py-8 max-w-7xl mx-auto"> */}
   
  <div className="mx-auto max-w-4xl md:max-w-6xl w-full px-4 py-3">
-          <div className="w-full px-4 py-6"> 
+          <div className="w-full px-1 py-6"> 
         <ProfileHeader 
         user={user}
         onUserUpdate={handleUserUpdate} 
          />
       </div>
-      <div className="flex flex-col sm:flex-row gap-2 px-4 pt-2 mb-4">
-           <div className="flex-1"><AnotherSection /></div>
-           <div className="flex-1">
-            <ReviewSection 
+     
+<div className="sm:columns-2 gap-2">
+  {/* <div className="break-inside-avoid mb-4"> */}
+    <div className="border border-gray-300 rounded-xl p-0 mb-4">
+         <ReviewSection 
             user={user}
               isOwnAccount={true}
            />
-           </div>
-           </div>
+    {/* </div> */}
+  </div>
+  <div className="break-inside-avoid mb-4">
+    <div className="border border-gray-300 rounded-xl p-0">
+     <SkillSection
+            userId={user.id}
+            isOwnAccount={true}
+            />
+
+    </div>
+  </div>
+  <div className="break-inside-avoid mb-4">
+    <div className="border border-gray-300 rounded-xl p-0">
+      <WishSection
+            userId={user.id}
+            isOwnAccount={true}
+            />
+
+    </div>
+  </div>
+  <div className="break-inside-avoid mb-4">
+    <div className="border border-gray-300 rounded-lg p-4">Section 4 - Short</div>
+  </div>
+</div>
 
       </div>
     </div>

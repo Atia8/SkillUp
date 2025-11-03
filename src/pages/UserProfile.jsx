@@ -4,6 +4,8 @@ import ProfileHeader from '../components/profile/ProfileHeader';
 import Navbar from '../components/navigation/ResponsiveNavbar';
 import ReviewSection from '../components/reviews/ReviewsSection';
 import AnotherSection from '../components/reviews/AnotherSection';
+import SkillSection from '../components/skill/skillsection';
+
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -52,15 +54,41 @@ const UserProfile = () => {
           isOwnProfile={false} // 👈 This hides the edit button
         />
         </div>
-         <div className="flex flex-col sm:flex-row gap-2 px-4 pt-2 mb-2">
-           <div className="flex-1"><AnotherSection /></div>
-           <div className="flex-1">
-            <ReviewSection 
+       
+<div className="sm:columns-2 gap-2">
+  <div className="break-inside-avoid mb-4">
+    <div className="border border-gray-300 rounded-xl p-0 mb-4">
+         <ReviewSection 
             user={user}
               isOwnAccount={false}
            />
-           </div>
-      </div>
+    </div>
+  </div>
+  <div className="break-inside-avoid mb-4">
+    <div className="border border-gray-300 rounded-xl p-0">
+     <SkillSection
+            userId={user.id}
+            isOwnAccount={false}
+            />
+
+    </div>
+  </div>
+  <div className="break-inside-avoid mb-4">
+    <div className="border border-gray-300 rounded-xl p-0">
+      <SkillSection
+            userId={user.id}
+            isOwnAccount={false}
+            />
+
+    </div>
+  </div>
+  <div className="break-inside-avoid mb-4">
+    <div className="border border-gray-300 rounded-lg p-4">Section 4 - Short</div>
+  </div>
+</div>
+
+
+
       </div>
       
 
