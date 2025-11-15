@@ -5,10 +5,12 @@ import Navbar from '../components/navigation/ResponsiveNavbar';
 import ReviewSection from '../components/reviews/ReviewsSection';
 import AnotherSection from '../components/reviews/AnotherSection';
 import SkillSection from '../components/skill/skillsection';
+import WishSection from '../components/wish/wishSection';
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+  const API_BASE= import.meta.env.VITE_API_URL;
 const UserProfile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,7 +18,7 @@ const UserProfile = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/users/${userId}/profile`);
+      const response = await fetch(`${API_BASE}/users/${userId}/profile`);
       
       if (response.ok) {
         const userData = await response.json();
@@ -47,7 +49,7 @@ const UserProfile = () => {
     <div className="min-h-screen bg-white w-full">
       <Navbar />
       <div className="mx-auto max-w-4xl md:max-w-6xl w-full px-4 py-3">
-      <div className="w-full px-4 py-6">
+      <div className="w-full px-1 py-6">
         <ProfileHeader 
           user={user}
           onUserUpdate={fetchUserProfile}
@@ -75,7 +77,7 @@ const UserProfile = () => {
   </div>
   <div className="break-inside-avoid mb-4">
     <div className="border border-gray-300 rounded-xl p-0">
-      <SkillSection
+      <WishSection
             userId={user.id}
             isOwnAccount={false}
             />

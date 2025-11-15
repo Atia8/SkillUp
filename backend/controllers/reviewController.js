@@ -13,6 +13,7 @@ const getReviewsByUser = async (req, res) => {
         r.comment,
         r.created_at,
         r.updated_at,
+        r.reviewer_id,
         u.name as reviewer_name,
         up.avatar_url as reviewer_avatar
       FROM reviews r
@@ -85,6 +86,7 @@ const getReviewsByUser = async (req, res) => {
       comment: review.comment,
       reviewerName: review.reviewer_name,
       reviewerAvatar: review.reviewer_avatar,
+      reviewerId: review.reviewer_id, 
       createdAt: review.created_at,
       updatedAt: review.updated_at,
       displayDate: review.created_at === review.updated_at 

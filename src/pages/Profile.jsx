@@ -7,46 +7,62 @@ import ReviewSection from '../components/reviews/ReviewsSection';
 import AnotherSection from '../components/reviews/AnotherSection';
 import SkillSection from '../components/skill/skillsection';
 import WishSection from '../components/wish/wishSection';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { profileApi } from '../api/profileApi';
+
 
 import { useState, useEffect } from 'react'; 
 
+  const API_BASE = import.meta.env.VITE_API_URL;
+
 const Profile = () => {
 
-const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+//const [user, setUser] = useState(null);
+  //const [loading, setLoading] = useState(true);
+ const queryClient = useQueryClient();
 
- const fetchUserProfile = async () => {
-      try {
-        const token = localStorage.getItem('token');
+//  const { data: user, isLoading, error } = useQuery({
+//    queryKey: ['currentUser'],
+//       queryFn: async () => {
+//       try {
+//         const token = localStorage.getItem('token');
       
-    
+//         const response = await fetch(`${API_BASE}/users/profile`, {
+//           headers: {
+//             'Authorization': `Bearer ${token}`
+//           }
+//         });
 
-        const response = await fetch('http://localhost:5000/api/users/profile', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+//          if (!response.ok) {
+//         throw new Error('Failed to fetch profile');
+//       }
+//       return response.json();
+//         // if (response.ok) {
+//         //   const userData = await response.json();
+//         //   setUser(userData); // Real data from backend!
+//         // } else {
+//         //   console.error('Failed to fetch profile');
+//         // }
+//       } catch (error) {
+//         console.error('Error fetching profile:', error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     },
+//     });
 
-        if (response.ok) {
-          const userData = await response.json();
-          setUser(userData); // Real data from backend!
-        } else {
-          console.error('Failed to fetch profile');
-        }
-      } catch (error) {
-        console.error('Error fetching profile:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
- useEffect(() => {
-    fetchUserProfile();
-  }, []);
+// //  useEffect(() => {
+// //     fetchUserProfile();
+// //   }, []);
+ const { data: user = null, isLoading:loading, error } = useQuery({
+    queryKey: ['currentUser'], // Same key as Navbar
+    queryFn: () => profileApi.getCurrentUser() // Same function
+  });
 
     // Function to handle profile updates
   const handleUserUpdate = async () => {
-    await fetchUserProfile(); // Refresh data from server
+     await queryClient.invalidateQueries(['currentUser']);
+    //await fetchUserProfile(); // Refresh data from server
   };
 
 
@@ -104,7 +120,7 @@ console.log('User id:', user.id);
     </div>
   </div>
   <div className="break-inside-avoid mb-4">
-    <div className="border border-gray-300 rounded-lg p-4">Section 4 - Short</div>
+    <div className="border border-gray-300 rounded-lg p-4">Coming soon....</div>
   </div>
 </div>
 

@@ -9,6 +9,7 @@ import { useParams,useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { fetchUserReviews } from '../api/reviews';
+import  DeleteReviewHandler from '../components/reviews/deleteReviewHandler';
 
 import { Star } from 'lucide-react';
 import RatingProgressBar from '../components/reviews/RatingProgressBar';
@@ -22,6 +23,10 @@ const AllReview = () => {
     const location = useLocation();
   const isOwnAccount = location.state?.isOwnAccount || false;
   const userName = location.state?.userName;
+  const visitinguser = location.state?.visitinguser;
+
+console.log('reviewee',userId);
+
 //const allReviews = location.state?.reviewsData || []; // Get the reviews
 const navigate = useNavigate(); // Add this
   const refetchReviews= location.state?.refetchReviews;
@@ -111,7 +116,7 @@ return(
       </div> */}
         
         {reviews.reviews?.map(review => (
-    <ReviewCard key={review.id} reviewer={review} />
+    <ReviewCard key={review.id} reviewer={review} visitinguserId={userId}/>
   ))}
     </div>
 </div>

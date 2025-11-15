@@ -8,20 +8,18 @@ import { useQueryClient } from '@tanstack/react-query';
 const SkillCard = ({ skill, isOwnAccount, onAddCertificate, onAddProject }) => {
    const queryClient = useQueryClient();
 
-  // const handleDelete = async () => {
-  //   const result = await handleDeleteSkill(skill.id, skill.skill_name, queryClient);
-    
-  //   if (result && !result.success && !result.cancelled) {
-  //     alert(result.error);
-  //   }
-  // };
-
    const handleDeleteComplete = (result) => {
     if (result && !result.success && !result.cancelled) {
       alert(result.error);
     }
   };
  
+  const getFullUrl = (path) => {
+  if (!path) return null;
+  const baseUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000';
+  return `${baseUrl}${path}`;
+};
+
  
   return (
     <div className=" w-full border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
@@ -61,7 +59,8 @@ const SkillCard = ({ skill, isOwnAccount, onAddCertificate, onAddProject }) => {
         {/* Certificate Button */}
         {skill.certificate_url ? (
           <button
-            onClick={() => window.open(skill.certificate_url, '_blank')}
+            //onClick={() => window.open(skill.certificate_url, '_blank')}
+             onClick={() => window.open(getFullUrl(skill.certificate_url), '_blank')}
             className="cursor-pointer justify-center py-1 font-semibold  w-full flex items-center gap-2 bg-white text-black px-2 rounded text-sm hover:bg-gray-300 transition-colors border border-gray-300"
           >
             <Award size={16} />

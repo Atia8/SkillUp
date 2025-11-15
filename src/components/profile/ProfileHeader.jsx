@@ -5,9 +5,12 @@ import FollowButton from './FollowButton'; // Adjust path as needed
 
 import {getFollowCount} from '../../api/followApi'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileHeader = ({ user,onUserUpdate,isOwnProfile=true }) => {
- 
+const API_BASE= import.meta.env.VITE_API_URL; 
+const ASSET_BASE_URL = API_BASE.replace('/api', ''); 
+
    const { 
         data: countData, 
         isLoading: countLoading, 
@@ -47,7 +50,7 @@ const ProfileHeader = ({ user,onUserUpdate,isOwnProfile=true }) => {
       // Get token from wherever you store it (localStorage, context, etc.)
       const token = localStorage.getItem('token'); // or from your auth context
 
-      const response = await fetch('http://localhost:5000/api/upload/avatar', {
+      const response = await fetch(`${API_BASE}/upload/avatar`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`, // 👈 Include JWT token
@@ -83,6 +86,20 @@ const ProfileHeader = ({ user,onUserUpdate,isOwnProfile=true }) => {
   
   const filledStars = Math.floor(rating);
   const emptyStars = 5 - filledStars;
+
+  const navigate = useNavigate();
+  const handleMessageClick = () => {
+  navigate(`/chat/${user.id}`, {
+    state: { 
+      receiverName: user.name,
+      receiverAvatar: user.avatar_url 
+    }
+  });
+};
+
+  const handleInboxClick = () => {
+    navigate('/messages'); // Navigate to chat list page
+  };
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 p-6 relative ">
@@ -126,7 +143,7 @@ const ProfileHeader = ({ user,onUserUpdate,isOwnProfile=true }) => {
   {/* Show current avatar or placeholder */}
           {user.avatar_url ? (
             <img 
-              src={`http://localhost:5000${user.avatar_url}`} 
+              src={`${ASSET_BASE_URL}${user.avatar_url}`} 
               alt="Profile" 
               className="w-full h-full rounded-full object-cover"
             />
@@ -224,12 +241,33 @@ hover:bg-gray-600 disabled:opacity-50">
           />
         )}
 
+         
+           {isOwnProfile && (
+            <button 
+             onClick={handleInboxClick} 
+            className="flex justify-center items-center border border-gray-400 px-6 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors gap-1">
+                <MessageCircle size={18} />
+              Inbox
+            </button>
+           )}
 
-
-            <button className="flex justify-center items-center border border-gray-400 px-3 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors gap-1">
+           {!isOwnProfile && (
+            <button 
+              onClick={handleMessageClick}
+            className="flex justify-center items-center border border-gray-400 px-3 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors gap-1">
                 <MessageCircle size={18} />
               Message
             </button>
+           )}
+
+
+            {/* <button 
+              onClick={handleMessageClick}
+            className="flex justify-center items-center border border-gray-400 px-3 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors gap-1">
+                <MessageCircle size={18} />
+              Message
+            </button>
+            */}
           </div>
 
 

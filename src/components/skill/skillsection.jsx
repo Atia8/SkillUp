@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getUserSkills } from '../../api/skillsApi';
 import SkillCard from './SkillCard';
 import AllSkills from './AllSkills';
+import { Award} from 'lucide-react';
 
 const SkillSection = ({ userId, isOwnAccount }) => {
 const [isAddSkillModalOpen, setIsAddSkillModalOpen] = useState(false);
@@ -57,8 +58,9 @@ const handleAddSkillClick = () => {
  return (
     <div className="bg-white rounded-xl border border-gray-100 p-6">
       {/* Header */}
-      <div className="mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Skill Section</h3>
+      <div className="mb-4 flex gap-2 items-center">
+        <Award size={22} className="text-green-400"/>
+        <h3 className="text-lg font-sans text-gray-900">Skill Section</h3>
       </div>
 
       {isLoading && <div>Loading skills...</div>}

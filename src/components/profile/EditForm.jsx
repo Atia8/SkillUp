@@ -7,6 +7,7 @@ const EditForm = ({ user, onSave, onCancel }) => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+const API_BASE= import.meta.env.VITE_API_URL; 
 
   useEffect(() => {
     if (user) {
@@ -33,7 +34,7 @@ const EditForm = ({ user, onSave, onCancel }) => {
      setError(''); // Clear previous errors
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/users/profile', {
+      const response = await fetch(`${API_BASE}/users/profile`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

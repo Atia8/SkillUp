@@ -1,18 +1,28 @@
 // FILE: src/components/navigation/ResponsiveNavbar.jsx
 
 import { useNavigate, useLocation } from "react-router-dom";
-import { Search, MessageCircle, User, Menu } from "lucide-react";
+import { Search, MessageCircle, User, Menu,LogOut } from "lucide-react";
 import { useState, useRef, useEffect } from 'react';
+import { profileApi } from '../../api/profileApi';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export default function ResponsiveNavbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [showMobileMenu, setShowMobileMenu] = useState(false);
  const menuRef = useRef(null); 
+ const queryClient = useQueryClient();
+
 
   const isActive = (path) => location.pathname === path;
 
-
+  const { data: user = null, isLoading:loading, error } = useQuery({
+    queryKey: ['currentUser'], // Same key as Navbar
+    queryFn: () => profileApi.getCurrentUser(), // Same function
+    // enabled: !!localStorage.getItem('token')
+  });
+const API_BASE= import.meta.env.VITE_API_URL; 
+const ASSET_BASE_URL = API_BASE.replace('/api', '');
 // Detect clicks outside menu
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -50,6 +60,23 @@ export default function ResponsiveNavbar() {
   const currentPage = getCurrentPageInfo();
   const CurrentIcon = currentPage.icon;
 
+
+  //logout
+  const handleLogout = () => {
+  // Clear all authentication data
+  localStorage.removeItem('token');
+  localStorage.removeItem('authToken');
+  
+  // Clear React Query cache
+  queryClient.clear();
+  
+  // Redirect to login page
+  navigate('/signin');
+  
+  // Close mobile menu if open
+  setShowMobileMenu(false);
+};
+
   return (
     <>
       {/* DESKTOP NAVIGATION - Shows on medium screens and up */}
@@ -61,6 +88,7 @@ export default function ResponsiveNavbar() {
             <div className="flex flex-row items-center gap-2">
               <div className="w-10 h-10 bg-black rounded-md flex items-center justify-center">
                 <span className="text-white font-bold text-sm">SU</span>
+                 
               </div>
               <h1 className="text-xl font-medium text-gray-900">SkillUp</h1>
             </div>
@@ -100,14 +128,50 @@ export default function ResponsiveNavbar() {
                 onClick={() => navigate('/profile')}
               >
                 <User className="h-4 w-4" />
+
                 <span>Profile</span>
               </button>
+
             </div>
             
+            <div className="flex gap-2 items-center">
             {/* DESKTOP USER AVATAR */}
-            <div className="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center">
-              <span className="text-sm font-medium">U</span>
+             <div className="h-8 w-8 bg-gray-300 rounded-full flex items-center justify-center">
+              {/* <span className="text-sm font-medium">U</span> */}
+              
+ {loading ? (
+    <div className="h-8 w-8 bg-gray-300 rounded-full animate-pulse"></div>
+  ) : user?.avatar_url ? (  // ✅ Optional chaining - safe even if user is null
+    <img 
+      src={`${ASSET_BASE_URL}${user.avatar_url}`} 
+      alt="Profile" 
+      className="w-full h-full rounded-full object-cover"
+    />
+  ) : (
+    <svg 
+      width="32" 
+      height="32" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2"
+      className="text-gray-500"
+    >
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  )}
             </div>
+ {/* logout button*/}
+              <button 
+    onClick={handleLogout}
+    className="flex items-center space-x-2 px-4 py-2 text-sm font-medium rounded-lg transition text-red-600  hover:text-red-700 "
+  >
+    <LogOut className="h-4 w-4" />
+    {/* <span>Logout</span> */}
+  </button>
+
+            </div> 
             
           </div>
         </div>
@@ -147,7 +211,7 @@ export default function ResponsiveNavbar() {
                 {currentPage.name}
               </button>
             
-
+                     
               {/* Menu Button */}
               <button
                 onClick={() => setShowMobileMenu(!showMobileMenu)}
@@ -155,9 +219,10 @@ export default function ResponsiveNavbar() {
               >
                 <Menu className="h-5 w-5 text-black" />
               </button>
+              
             </div>
           </div>
-
+        
           {/* MOBILE DROPDOWN MENU */}
           {showMobileMenu && (
                     <div 
@@ -204,13 +269,23 @@ export default function ResponsiveNavbar() {
                 </button>
               )}
 
+  <button 
+      className="flex items-center space-x-3 w-full px-4 py-3 text-left text-red-600 hover:bg-red-50 transition"
+      onClick={handleLogout}
+    >
+      <LogOut className="h-5 w-5" />
+      <span className="font-medium">Logout</span>
+    </button>
+  
               
             </div>
              
           )}
+          
         </div>
         
       </nav>
+
     </>
   );
 }

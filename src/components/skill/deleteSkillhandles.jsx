@@ -1,28 +1,4 @@
-// import { deleteSkill } from '../../api/skillsApi';
-// import { useState } from 'react';
 
-// export const handleDeleteSkill = async (skillId, skillName, queryClient) => {
-//   // Confirmation dialog
-//   const [deleting, setdeleting] = useState(true);
- 
-
-//   try {
-//     const result = await deleteSkill(skillId);
-    
-//     if (result.success) {
-//       // Refresh the skills list
-//       await queryClient.invalidateQueries(['userSkills']);
-//       return { success: true, message: 'Skill deleted successfully' };
-//     } else {
-//       return { success: false, error: result.error || 'Failed to delete skill' };
-//     }
-//   } catch (error) {
-//     console.error('Delete error:', error);
-//     return { success: false, error: 'Network error while deleting skill' };
-//   }
-
-  
-// };
 
 import { useState } from 'react';
 import { deleteSkill } from '../../api/skillsApi';

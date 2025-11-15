@@ -1,7 +1,10 @@
 import MentorCard from './MentorCard';
 import { useState, useEffect } from 'react';
 
-const MentorsSection = () => {
+const API_BASE= import.meta.env.VITE_API_URL; // ← USE THIS
+
+
+const MentorsSection = ({ selectedSkills, popularSkills , searchQuery}) => {
   const [mentors, setMentors] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -9,7 +12,7 @@ const MentorsSection = () => {
     const fetchMentors = async () => {
       try {
         const token = localStorage.getItem('token'); 
-        const response = await fetch('http://localhost:5000/api/mentors',{
+        const response = await fetch(`${API_BASE}/mentors`,{
          headers: {
             'Authorization': `Bearer ${token}` // 👈 Add token to headers
           }
@@ -31,6 +34,49 @@ const MentorsSection = () => {
     fetchMentors();
   }, []);
 
+   const filteredMentors = mentors.filter(mentor => {
+
+       if (searchQuery) {
+    const query = searchQuery.toLowerCase();
+    
+    // Check mentor name
+    const nameMatch = mentor.name?.toLowerCase().includes(query);
+    
+    // Check mentor skills
+    const skillMatch = mentor.skills?.some(skill => 
+      skill.skill_name.toLowerCase().includes(query)
+    );
+    
+    // If no match from search, exclude this mentor
+    if (!nameMatch && !skillMatch) {
+      return false;
+    }
+  }
+  
+    // 2. Then, handle skill filter (AND logic)
+  if (selectedSkills.length > 0) {
+
+        // Get mentor's skill names
+        const mentorSkillNames = mentor.skills?.map(skill => skill.skill_name) || [];
+        
+        // Convert selected skill IDs to skill names
+        const selectedSkillNames = selectedSkills.map(skillId => {
+          const skill = popularSkills.find(s => s.id === skillId);
+          return skill?.name;
+        }).filter(Boolean); // Remove undefined values
+        
+        // Check if mentor has ALL selected skills (AND logic)
+          const hasAllSkills=selectedSkillNames.every(skillName => 
+          mentorSkillNames.includes(skillName)
+        );
+      
+        if (!hasAllSkills) {
+      return false;
+     }
+    }
+     return true;
+});
+    
   
 if (loading) {
   return (
@@ -48,15 +94,30 @@ if (loading) {
 
 return (
   <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-2 sm:px-0 mt-2">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-2 sm:px-0 mt-2">
         {mentors.map(mentor => (
+          <MentorCard key={mentor.id} mentor={mentor} />
+        ))}
+      </div> */}
+
+      {/* {mentors.length === 0 && (
+        <div className="text-center py-8 text-gray-500">
+          No mentors found. Be the first to join!
+        </div>
+      )} */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-2 sm:px-0 mt-2">
+        {filteredMentors.map(mentor => (
           <MentorCard key={mentor.id} mentor={mentor} />
         ))}
       </div>
 
-      {mentors.length === 0 && (
+      {filteredMentors.length === 0 && (
         <div className="text-center py-8 text-gray-500">
-          No mentors found. Be the first to join!
+          {selectedSkills.length > 0 
+            ? "No mentors found matching your selected skills. Try different skills!"
+            : "No mentors found. Be the first to join!"
+          }
         </div>
       )}
       </div>

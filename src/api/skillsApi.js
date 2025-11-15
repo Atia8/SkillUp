@@ -1,5 +1,8 @@
 // In your api/skillsApi.js or add to followApi.js
-const API_BASE = 'http://localhost:5000/api';
+//const API_BASE = 'http://localhost:5000/api';
+const API_BASE= import.meta.env.VITE_API_URL; // ← USE THIS
+
+
 
 export const addSkill = async (skillData) => {
     const token = localStorage.getItem('token');

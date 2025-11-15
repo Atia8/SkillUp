@@ -19,7 +19,8 @@ const addSkill = async (req, res) => {
     // 4. Handle file upload if exists
      let certificateUrl = null;
     if (req.file) {
-      certificateUrl = `${req.protocol}://${req.get('host')}/uploads/certificates/${req.file.filename}`;
+      //certificateUrl = `${req.protocol}://${req.get('host')}/uploads/certificates/${req.file.filename}`;
+      certificateUrl = `/uploads/certificates/${req.file.filename}`;
     }
 
     // Check if skill exists first

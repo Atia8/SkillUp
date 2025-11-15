@@ -30,6 +30,9 @@ import Discover from './pages/Discover';
 import Profile from './pages/Profile';
 import UserProfile from './pages/UserProfile';
 import AllReview from './pages/AllReview';
+import ChatPage from './pages/ChatPage';
+import ChatListPage from './pages/ChatListPage';
+
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -57,6 +60,9 @@ function App() {
         <Route path="/profile" element={<Profile />} />
           <Route path="/users/:userId" element={<UserProfile />} /> 
            <Route path="/review/:userId" element={<AllReview />} />
+            <Route path="/chat/:receiverId" element={<ChatPage />} />
+            <Route path="/messages" element={<ChatListPage />} />
+
         {/* Add more routes as needed */}
       </Routes>
     </Router>

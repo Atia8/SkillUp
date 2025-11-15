@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const path = require('path');
+
+const http = require('http'); 
 
 const { testConnection } = require('./config/database');
 
@@ -12,8 +15,16 @@ const mentorRoutes = require('./routes/mentors');
 const reviewRoutes = require('./routes/reviews');
 const followRoutes = require('./routes/follow');
 const skillRoutes = require('./routes/skills');
+const wishRoutes = require('./routes/wish');
+const messageRoutes = require('./routes/messages');
 
 const app = express();
+
+const server = http.createServer(app); // ← ADD THIS
+
+// Initialize Socket.io ← ADD THIS
+const { initializeSocket } = require('./socket/socketHandler');
+const io = initializeSocket(server);
 
 // Middleware
 app.use(cors());
@@ -28,6 +39,11 @@ app.use('/api/mentors', mentorRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/follow', followRoutes);
 app.use('/api/skills', skillRoutes);
+app.use('/api/wishlist', wishRoutes);
+app.use('/api/messages', messageRoutes);
+
+
+
 
 // Health check route
 app.get('/api/health', (req, res) => {
@@ -46,7 +62,7 @@ const initializeServer = async () => {
   await testConnection();
   
   const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log(`✅ Server running on http://localhost:${PORT}`);
       console.log(`🔐 Auth routes: http://localhost:${PORT}/api/auth/signup`);
     console.log(`🔐 Auth routes: http://localhost:${PORT}/api/auth/login`);

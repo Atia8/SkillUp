@@ -1,5 +1,7 @@
 import { Star,UserPlus, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import FollowButton from '../profile/FollowButton'; // Adjust path as needed
+import { useNavigate } from 'react-router-dom';
 
 
 const MentorCard = ({ mentor }) => {
@@ -8,16 +10,31 @@ const MentorCard = ({ mentor }) => {
   const filledStars = Math.floor(mentor.rating);  // 4.8 → 4
   const emptyStars = 5 - filledStars;             // 5 - 4 = 1
 
+const API_BASE= import.meta.env.VITE_API_URL; 
+const ASSET_BASE_URL = API_BASE.replace('/api', ''); 
+
+ const navigate = useNavigate();
+  const handleMessageClick = () => {
+  navigate(`/chat/${mentor.id}`, {
+    state: { 
+      receiverName: mentor.name,
+      receiverAvatar: mentor.avatar_url,
+      discoverPage: true  
+    }
+  });
+};
 
   return (
-     <Link to={`/users/${mentor.id}`} className="block">
+    //  <Link to={`/users/${mentor.id}`} className="block">
     <div className="bg-white rounded-2xl border border-gray-300 p-6 hover:shadow-md transition-shadow">
+     <Link to={`/users/${mentor.id}`} className="block cursor-pointer">
+
       <div className="flex items-center gap-4 mb-4">
         <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-xl">
           {/* {mentor.avatar} */}
            {mentor.avatar_url? (
             <img 
-              src={`http://localhost:5000${mentor.avatar_url}`} 
+              src={`${ASSET_BASE_URL}${mentor.avatar_url}`} 
               alt={mentor.name}
               className="w-full h-full rounded-full object-cover"
             />
@@ -61,31 +78,40 @@ const MentorCard = ({ mentor }) => {
         </div>
       </div>
       
+      
     
       <div className=" text-sm text-gray-600 mb-2 font-sans">
       {mentor.title}
       </div>
 
-      {/* <div className="flex flex-wrap gap-2 mb-4">
-        {mentor.skills.map(skill => (
-          <span key={skill} className="px-2 py-1 bg-gray-200 text-black rounded-full text-xs font-semibold">
-            {skill}
-          </span>
-        ))}
-      </div> */}
-      
-      <div className="flex gap-2">
-        <button className="flex items-center justify-center gap-2 flex-1 bg-black text-white py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-800">
-           <UserPlus size={18} />
-          Follow
-        </button>
-        <button className="flex items-center justify-center flex-1 border border-gray-300 py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-50">
-          <MessageCircle size={18} />
-          Message
-        </button>
-      </div>
+<div className="flex flex-wrap gap-2 mb-4">
+    {mentor.skills.slice(0,3).map(skill => (
+      <div 
+      key={skill.id} 
+      className="gap-1 flex items-center font-semibold bg-gray-100 text-black px-2 py-0.5 rounded-xl text-sm  border border-gray-300"
+    >
+      {skill.skill_name}
     </div>
-     </Link>
+
+ ))}
+    </div>
+    
+
+ </Link> 
+     
+
+        <div className="grid grid-cols-2 gap-2 w-full">
+  <FollowButton userId={mentor.id} />
+  <button 
+  onClick={handleMessageClick}
+  className="flex items-center justify-center border border-gray-300 py-2 px-4 rounded-lg text-sm font-medium hover:bg-gray-50">
+    <MessageCircle size={18} />
+    Message
+  </button>
+</div>
+        
+      </div>
+     
   );
 };
 

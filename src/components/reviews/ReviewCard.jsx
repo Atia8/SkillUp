@@ -1,12 +1,18 @@
 
-
-
-import { Star } from 'lucide-react';
+import  DeleteReviewHandler from './deleteReviewHandler';
+import { Link } from 'react-router-dom';
+import { profileApi } from '../../api/profileApi';
+import { Star,Trash2 } from 'lucide-react';
 import { useState,useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-const ReviewCard = ({ reviewer }) => {
+const ReviewCard = ({ reviewer,visitinguserId }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   
+const API_BASE= import.meta.env.VITE_API_URL; 
+const ASSET_BASE_URL = API_BASE.replace('/api', ''); 
+  const [Delete, setIsDelete] = useState(false);
+
   // Check if comment has more than 100 words
   //const words = reviewer.comment?.split(/\s+/) || [];
   const needsExpand = reviewer.comment?.length > 100;
@@ -18,12 +24,27 @@ const ReviewCard = ({ reviewer }) => {
 //     ? reviewer.comment 
 //     : (needsExpand ? words.slice(0, 100).join(' ') + '...' : reviewer.comment);
 
+
+const { data: user = null, isLoading:loading, error } = useQuery({
+    queryKey: ['currentUser'], // Same key as Navbar
+    queryFn: () => profileApi.getCurrentUser() // Same function
+  });
+
+
+  const isReviewOwner = user?.id === reviewer.reviewerId;
+ 
+  console.log('reviewer',reviewer.reviewerId);
+
+console.log('reviewee',visitinguserId);
+
   return (
-    <div className={`border border-gray-300 p-4 rounded-lg shadow shadow-gray-100 flex w-full lg:max-w-2xl mx-auto min-w-0 ${isExpanded ? '' : 'h-[180px] overflow-hidden'}`}>
+    <div className={`border border-gray-300 p-3 rounded-lg shadow shadow-gray-100 flex w-full lg:max-w-2xl mx-auto min-w-0 ${isExpanded ? '' : 'h-[160px] overflow-hidden'}`}>
+       <Link to={`/users/${reviewer.reviewerId}`} className="block cursor-pointer">
+      
       <div className="relative w-11 h-11 bg-gray-200 rounded-full flex items-center justify-center text-3xl sm:self-start flex-shrink-0">
         {reviewer.reviewerAvatar ? (
           <img 
-            src={`http://localhost:5000${reviewer.reviewerAvatar}`} 
+            src={`${ASSET_BASE_URL}${reviewer.reviewerAvatar}`} 
             alt="Profile" 
             className="w-full h-full rounded-full object-cover"
           />
@@ -40,9 +61,32 @@ const ReviewCard = ({ reviewer }) => {
           </svg>
         )}
       </div>
+      </Link>
       
-      <div className="sm:mt-1 w-full pl-3 flex flex-col gap-1 min-w-0">
+      <div className="sm:mt-1 w-full pl-2 flex flex-col gap-1 min-w-0">
+        <div className="flex justify-between ">
         <h4 className="font-semibold">{reviewer.reviewerName}</h4>
+        <div className="mt-1">
+        {isReviewOwner && (
+            <button 
+              onClick={() => setIsDelete(true)}
+              className="text-black hover:text-gray-400 text-sm font-semibold mt-0 mb-1"
+            >
+             <Trash2 size={12} />
+            </button>
+          )}
+    
+
+{Delete && (
+      <DeleteReviewHandler
+        reviewer={reviewer}
+        onComplete={() => setIsDelete(false)}
+        onClose={() => setIsDelete(false)}
+        visitinguserId={visitinguserId}
+      />
+    )}
+    </div>
+        </div>
         <div className="flex gap-1 items-center">
           {[1, 2, 3, 4, 5].map((star) => (
             <Star 
@@ -52,7 +96,7 @@ const ReviewCard = ({ reviewer }) => {
               fill={star <= reviewer.rating ? "currentColor" : "none"}
             />
           ))}
-          <h4 className="text-gray-400 pl-1.5">{reviewer.displayDate}</h4>
+          <h3 className="text-gray-400 pl-0 text-sm">{reviewer.displayDate}</h3>
         </div>
         
         <div className="w-full min-w-0 ">
@@ -70,6 +114,8 @@ const ReviewCard = ({ reviewer }) => {
           )}
         </div>
       </div>
+    
+
     </div>
   );
 };

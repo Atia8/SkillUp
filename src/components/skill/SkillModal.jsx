@@ -36,7 +36,8 @@ const [error, setError] = useState('');
       };
 
       const result = await addSkill(skillData);
-      
+       //queryClient.invalidateQueries(['userSkills', userId]);
+       
       if (result.success) {
         onSkillAdded(); // Refresh parent component
         onClose(); // Close modal

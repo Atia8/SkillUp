@@ -11,6 +11,8 @@ import Navbar from '../components/navigation/ResponsiveNavbar';
 
 export default function Discover() {
   const [searchQuery, setSearchQuery] = useState("");
+const [selectedSkills, setSelectedSkills] = useState([]);
+  const [popularSkills, setPopularSkills] = useState([]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -30,10 +32,19 @@ export default function Discover() {
         />
         
         {/* POPULAR SKILLS */}
-        <SkillsSection />
+        <SkillsSection
+           selectedSkills={selectedSkills}
+           setSelectedSkills={setSelectedSkills}
+          popularSkills={popularSkills}
+          setPopularSkills={setPopularSkills}        
+        />
         
         {/* MENTORS */}
-        <MentorsSection />
+        <MentorsSection
+            selectedSkills={selectedSkills}  
+            popularSkills={popularSkills}
+             searchQuery={searchQuery}
+        />
         
       </div>
     </div>

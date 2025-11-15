@@ -1,28 +1,37 @@
 // src/components/discover/SkillsSection.jsx
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 
-const SkillsSection = () => {
-  const [selectedSkills, setSelectedSkills] = useState([]);
+const SkillsSection = ({ selectedSkills, setSelectedSkills, popularSkills, setPopularSkills }) => {
+  //const [selectedSkills, setSelectedSkills] = useState([]);
 
   // Popular skills data - simple chip component react
-  const popularSkills = [
+  const localPopularSkills = [
     { id: 1, name: 'JavaScript' },
-    { id: 2, name: 'React' },
-    { id: 3, name: 'Node.js' },
-    { id: 4, name: 'Python' },
-    { id: 5, name: 'UI/UX Design' },
-    { id: 6, name: 'Data Structures' },
-    { id: 7, name: 'Algorithms' },
-    { id: 8, name: 'SQL' },
-    { id: 9, name: 'AWS' },
-    { id: 10, name: 'Machine Learning' },
-    { id: 11, name: 'Graphic Design' },
-    { id: 12, name: 'Digital Marketing' },
-    { id: 13, name: 'Java' },
-    { id: 14, name: 'CSS' },
-    { id: 15, name: 'HTML' },
-    { id: 16, name: 'MongoDB' }
+  { id: 2, name: 'React' },
+  { id: 3, name: 'Python Programming' },
+  { id: 4, name: 'Node.js' },
+  { id: 5, name: 'HTML/CSS' },
+  { id: 6, name: 'TypeScript' },
+  { id: 7, name: 'SQL' },
+  { id: 8, name: 'MongoDB' },
+  { id: 9, name: 'AWS' },
+  { id: 10, name: 'Docker' },
+  { id: 11, name: 'UI/UX Design' },
+  { id: 12, name: 'Figma' },
+  { id: 13, name: 'Project Management' },
+  { id: 14, name: 'Git' },
+  { id: 15, name: 'React Native' },
+  { id: 16, name: 'Vue.js' },
+  { id: 17, name: 'Angular' },
+  { id: 18, name: 'Express.js' },
+
   ];
+
+ useEffect(() => {
+    if (setPopularSkills) {
+      setPopularSkills(localPopularSkills);
+    }
+  }, [setPopularSkills]);
 
   const toggleSkill = (skillId) => {
     setSelectedSkills(prev =>
@@ -44,7 +53,7 @@ const SkillsSection = () => {
 
       {/* Skills Tags - LeetCode Style */}
       <div className="flex flex-wrap gap-2">
-        {popularSkills.map(skill => (
+        {localPopularSkills.map(skill => (
           <button
             key={skill.id}
             onClick={() => toggleSkill(skill.id)}
@@ -68,7 +77,7 @@ const SkillsSection = () => {
             <span>Filtering by:</span>
             <div className="flex flex-wrap gap-1">
               {selectedSkills.map(skillId => {
-                const skill = popularSkills.find(s => s.id === skillId);
+                const skill = localPopularSkills.find(s => s.id === skillId);
                 return (
                   <span
                     key={skillId}

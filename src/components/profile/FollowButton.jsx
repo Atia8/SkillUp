@@ -82,7 +82,7 @@ const FollowButton = ({ userId, isOwnProfile }) => {
          <button 
              disabled={statusLoading || followMutation.isLoading}
             onClick={handleFollow}
-            className={`flex justify-center items-center px-4 py-2 rounded-lg font-medium transition-colors gap-1
+            className={`flex justify-center items-center w-full px-4 py-2 rounded-lg font-medium transition-colors gap-1
               ${
        isFollowing 
       ? 'bg-gray-300 text-black hover:bg-gray-400 border border-gray-300' 

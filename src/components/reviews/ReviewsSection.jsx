@@ -122,7 +122,7 @@ const ReviewsSection = ({user, isOwnAccount}) => {
     queryFn: () => fetchUserReviews(user.id)
   });
  
-
+console.log("review section:" ,user.id);
 
 const handleViewAllReviews = () => {
    //console.log("user id: ",user.id);
@@ -130,14 +130,14 @@ const handleViewAllReviews = () => {
     state: { 
       isOwnAccount: isOwnAccount,
           userName: user.name,
-         
+         visitinguser:user,
 
     }  
   }); // Navigate to AllReview page
   };
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-4">
+    <div className="bg-white rounded-xl border border-gray-200 p-6">
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <Star size={22} className="text-yellow-500"/>
@@ -148,7 +148,7 @@ const handleViewAllReviews = () => {
 <div className="space-y-0 mb-4">
   {reviews.reviews?.slice(0, 2).map((review, index,array) => (
     <div key={review.id}>
-      <RecentReview reviewer={review} />
+      <RecentReview reviewer={review} visitinguser={user}/>
       {index < array.length - 1 && <hr className="border-gray-300 mx-2 mb-1" />} {/* ← Add HR between reviews */}
     </div>
   ))}
