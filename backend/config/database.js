@@ -1,5 +1,13 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
+// DEBUG: Check what environment variables are available
+console.log('🔧 Checking MySQL environment variables:');
+console.log('MYSQLHOST:', process.env.MYSQLHOST);
+console.log('MYSQLUSER:', process.env.MYSQLUSER);
+console.log('MYSQLDATABASE:', process.env.MYSQLDATABASE);
+console.log('MYSQLPORT:', process.env.MYSQLPORT);
+console.log('MYSQL_URL:', process.env.MYSQL_URL ? '***SET***' : 'NOT SET');
+
 
 const dbConfig = {
   host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
@@ -11,6 +19,13 @@ const dbConfig = {
   connectionLimit: 10,
   queueLimit: 0
 };
+
+console.log('🔧 Final database config:', {
+  host: dbConfig.host,
+  user: dbConfig.user,
+  database: dbConfig.database,
+  port: dbConfig.port
+});
 
 const pool = mysql.createPool(dbConfig);
 
