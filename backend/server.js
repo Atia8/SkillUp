@@ -62,10 +62,11 @@ const initializeServer = async () => {
   
   // Test database connection
   await testConnection();
+  await initializeDatabase();
   
   const PORT = process.env.PORT || 5000;
-  server.listen(PORT, async() => {
-     await initializeDatabase();
+  server.listen(PORT, () => {
+     
     console.log(`✅ Server running on http://localhost:${PORT}`);
       console.log(`🔐 Auth routes: http://localhost:${PORT}/api/auth/signup`);
     console.log(`🔐 Auth routes: http://localhost:${PORT}/api/auth/login`);
