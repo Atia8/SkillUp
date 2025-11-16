@@ -158,11 +158,11 @@ export default function SignInForm() {
   
 <div className="flex items-center my-5">
      <div className="flex-grow border-t border-gray-300"></div>
-  <span className="mx-2 text-gray-500 text-sm">OR CONTINUE WITH</span>
+  {/* <span className="mx-2 text-gray-500 text-sm">OR CONTINUE WITH</span> */}
   <div className="flex-grow border-t border-gray-300"></div>
   </div>
 
-  <div className="flex items-center my-5 gap-2">
+  {/* <div className="flex items-center my-5 gap-2">
     <button type="button" className="flex-1 bg-white text-black border border-gray-200 font-semibold py-2 rounded-md hover:bg-gray-200 transition flex items-center justify-center gap-2">
   <Globe className="h-5 w-5" />
     Google
@@ -171,7 +171,7 @@ export default function SignInForm() {
     <Github className="h-5 w-5" />
     GitHub
   </button>
-  </div>
+  </div> */}
   <div className="mb-4 flex items-center justify-center gap-1">
         <label className="block text-gray-500 font-normal  text-sm">Don't have an account?</label>
           <button 

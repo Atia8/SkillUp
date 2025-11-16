@@ -4,6 +4,8 @@ require('dotenv').config();
 const path = require('path');
 
 const http = require('http'); 
+const initializeDatabase = require('./database/setup');
+
 
 const { testConnection } = require('./config/database');
 
@@ -62,7 +64,8 @@ const initializeServer = async () => {
   await testConnection();
   
   const PORT = process.env.PORT || 5000;
-  server.listen(PORT, () => {
+  server.listen(PORT, async() => {
+     await initializeDatabase();
     console.log(`✅ Server running on http://localhost:${PORT}`);
       console.log(`🔐 Auth routes: http://localhost:${PORT}/api/auth/signup`);
     console.log(`🔐 Auth routes: http://localhost:${PORT}/api/auth/login`);
