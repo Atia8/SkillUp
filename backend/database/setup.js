@@ -1,5 +1,5 @@
 // database/setup.js
-const pool = require('../config/database'); // your existing pool
+const {pool} = require('../config/database'); // your existing pool
 
 const initializeDatabase = async () => {
   try {
