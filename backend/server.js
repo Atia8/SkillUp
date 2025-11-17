@@ -63,7 +63,7 @@ const initializeServer = async () => {
   // Test database connection
   await testConnection();
   await initializeDatabase();
-  
+
   const PORT = process.env.PORT || 5000;
   server.listen(PORT, () => {
      

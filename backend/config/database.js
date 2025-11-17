@@ -1,20 +1,19 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 // DEBUG: Check what environment variables are available
-console.log('🔧 Checking MySQL environment variables:');
-console.log('MYSQLHOST:', process.env.MYSQLHOST);
-console.log('MYSQLUSER:', process.env.MYSQLUSER);
-console.log('MYSQLDATABASE:', process.env.MYSQLDATABASE);
-console.log('MYSQLPORT:', process.env.MYSQLPORT);
-console.log('MYSQL_URL:', process.env.MYSQL_URL ? '***SET***' : 'NOT SET');
+// console.log('🔧 Checking MySQL environment variables:');
+// console.log('MYSQLHOST:', process.env.MYSQLHOST);
+// console.log('MYSQLUSER:', process.env.MYSQLUSER);
+// console.log('MYSQLDATABASE:', process.env.MYSQLDATABASE);
+// console.log('MYSQLPORT:', process.env.MYSQLPORT);
+// console.log('MYSQL_URL:', process.env.MYSQL_URL ? '***SET***' : 'NOT SET');
 
 
 // const dbConfig = {
-//   host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
-//   user:  process.env.MYSQLUSER||process.env.DB_USER || 'root', 
-//   password: process.env.MYSQLPASSWORD ||process.env.DB_PASSWORD || '',
-//   database:  process.env.MYSQLDATABASE ||process.env.DB_NAME || 'skillshare',
-//     port: process.env.MYSQLPORT || 3306,
+//   host: process.env.DB_HOST || 'localhost',
+//   user: process.env.DB_USER || 'root', 
+//   password: process.env.DB_PASSWORD || '',
+//   database: process.env.DB_NAME || 'skillshare',
 //   waitForConnections: true,
 //   connectionLimit: 10,
 //   queueLimit: 0
@@ -33,10 +32,10 @@ if (process.env.MYSQL_URL) {
 } else {
   // Use individual variables
   dbConfig = {
-    host: process.env.MYSQLHOST || 'localhost',
-    user: process.env.MYSQLUSER || 'root', 
-    password: process.env.MYSQLPASSWORD || '',
-    database: process.env.MYSQLDATABASE || 'skillshare',
+    host: process.env.MYSQLHOST ||process.env.DB_HOST|| 'localhost',
+    user: process.env.MYSQLUSER ||process.env.DB_USER || 'root', 
+    password: process.env.MYSQLPASSWORD ||process.env.DB_PASSWORD|| '',
+    database: process.env.MYSQLDATABASE || process.env.DB_NAME||'skillshare',
     port: process.env.MYSQLPORT || 3306,
     waitForConnections: true,
     connectionLimit: 10,
@@ -45,12 +44,7 @@ if (process.env.MYSQL_URL) {
 }
 
 
-console.log('🔧 Final database config:', {
-  host: dbConfig.host,
-  user: dbConfig.user,
-  database: dbConfig.database,
-  port: dbConfig.port
-});
+
 
 const pool = mysql.createPool(dbConfig);
 
