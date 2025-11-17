@@ -6,6 +6,7 @@ import ChatHeader from '../components/chat/ChatHeader';
 import MessageList from '../components/chat/MessageList';
 import MessageInput from '../components/chat/MessageInput';
 import { getChatHistory } from '../api/messageApi';
+import { useEffect } from 'react';
 
 const ChatPage = () => {
   const { receiverId } = useParams();
@@ -21,13 +22,17 @@ const ChatPage = () => {
     queryFn: () => profileApi.getCurrentUser()
   });
 
-const { data: historyData, isLoading: historyLoading } = useQuery({
+const { data: historyData, isLoading: historyLoading,refetch } = useQuery({
     queryKey: ['chatHistory', currentUser?.id, receiverId],
     queryFn: () => getChatHistory(receiverId),
     enabled: !!currentUser && !!receiverId, // Only run when we have both IDs
   });
 
-
+  useEffect(() => {
+    if (currentUser && receiverId) {
+      refetch();
+    }
+  }, [currentUser, receiverId, refetch]);
 
   // Socket logic
   const { socket, messages: realTimeMessages, sendMessage } = useSocket(currentUser);
