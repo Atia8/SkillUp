@@ -1,6 +1,5 @@
-{ "routes": [{ "src": "/[^.]+", "dest": "/", "status": 200 }],
- "analytics": {
-    "vercelToolbar": false
-  }
+{ "routes": [{ "src": "/[^.]+", "dest": "/", "status": 200 }]
 
-}
+ }
+
+
